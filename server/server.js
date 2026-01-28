@@ -9,7 +9,6 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
-
 const forms = [
   { name: "Hardware Expo", csvUrl: process.env.HARDWARE_EXPO_CSV || "" },
   { name: "Paper Presentation", csvUrl: process.env.PAPER_PRESENTATION_CSV || "" },
@@ -18,9 +17,8 @@ const forms = [
   { name: "Fun Events", csvUrl: process.env.FUN_EVENTS_CSV || "" },
 ];
 
-
 const sheetCache = {};
-const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+const CACHE_TTL = 15 * 60 * 1000; // Increased to 15 minutes (adjust as needed)
 
 async function fetchSheet(csvUrl) {
   if (!csvUrl || csvUrl.startsWith("YOUR_")) return [];
@@ -65,10 +63,12 @@ app.post("/check-registration", async (req, res) => {
   const searchLower = searchValue.trim().toLowerCase();
   const searchClean = searchValue.replace(/[\s\-\(\)]/g, "");
 
-  const foundEvents = [];
+  // Run all sheet checks in parallel
+  const promises = forms.map(async (form) => {
+    if (!form.csvUrl || form.csvUrl.startsWith("YOUR_")) {
+      return null;
+    }
 
-  // Sequential fetch (more stable)
-  for (const form of forms) {
     try {
       const rows = await fetchSheet(form.csvUrl);
 
@@ -81,15 +81,16 @@ app.post("/check-registration", async (req, res) => {
       );
 
       if (exists) {
-        foundEvents.push({
-          name: form.name,
-          status: "Registered",
-        });
+        return { name: form.name, status: "Registered" };
       }
     } catch (err) {
       console.error(`Error fetching ${form.name}:`, err.message);
     }
-  }
+    return null;
+  });
+
+  const results = await Promise.all(promises);
+  const foundEvents = results.filter(Boolean);
 
   res.json({
     searchValue,
@@ -105,7 +106,7 @@ app.get("/events", (req, res) => {
   res.json({
     events: forms.map((f) => ({
       name: f.name,
-      hasSheet: !!f.csvUrl,
+      hasSheet: !!f.csvUrl && !f.csvUrl.startsWith("YOUR_"),
     })),
   });
 });
@@ -138,9 +139,21 @@ app.get("/debug", async (req, res) => {
 });
 
 /* ================================
-   START SERVER
+   START SERVER + PRE-WARM CACHE
 ================================ */
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`✅ Server running on port ${PORT}`);
   console.log(`📋 Configured ${forms.length} events`);
+
+  // Pre-warm the cache in the background (doesn't block the server start)
+  console.log("Pre-warming sheet cache...");
+  Promise.all(
+    forms.map((form) =>
+      fetchSheet(form.csvUrl).catch((err) =>
+        console.error(`Pre-warm failed for ${form.name}:`, err.message)
+      )
+    )
+  ).then(() => {
+    console.log("Cache pre-warming completed");
+  });
 });
