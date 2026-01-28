@@ -10,7 +10,7 @@ import {
 } from "react-icons/hi2";
 import PageLayout from "../components/PageLayout";
 
-// ============ SUB-COMPONENT: GLOWING EVENT CARD ============
+
 const EventCard = ({ title, description, icon: Icon, category, index, type }) => {
   const isTech = type === "technical";
   const accentColor = isTech ? "group-hover:shadow-cyan-500/20" : "group-hover:shadow-purple-500/20";

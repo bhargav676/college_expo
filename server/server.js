@@ -9,9 +9,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 4000;
 
-/* ================================
-   EVENTS CONFIG
-================================ */
+
 const forms = [
   { name: "Hardware Expo", csvUrl: process.env.HARDWARE_EXPO_CSV || "" },
   { name: "Paper Presentation", csvUrl: process.env.PAPER_PRESENTATION_CSV || "" },
@@ -20,9 +18,7 @@ const forms = [
   { name: "Fun Events", csvUrl: process.env.FUN_EVENTS_CSV || "" },
 ];
 
-/* ================================
-   CACHE SETUP
-================================ */
+
 const sheetCache = {};
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
