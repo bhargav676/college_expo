@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const { parse } = require("csv-parse/sync");
+const { parse } = require("csv-parse/sync");     
 
 const app = express();
 app.use(cors());
