@@ -33,8 +33,7 @@ const AboutCard = ({ title, description, icon: Icon, delay, colorClass }) => (
 const About = () => {
   const team = [
     { name: "	Dr. S.M.K. Chaitanya", role: "Faculty Coordinator", icon: HiAcademicCap, color: "cyan" },
-    { name: "Jahed Khan", role: "Student President", icon: HiBriefcase, color: "purple" },
-    { name: "Mani Pavan", role: "Tech Lead", icon: HiCommandLine, color: "cyan" },
+    { name: "Dr. B. Keerthi Priya", role: "Faculty Coordinator", icon: HiBriefcase, color: "purple" }
   ];
 
   const timeline = [

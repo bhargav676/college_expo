@@ -10,7 +10,7 @@ import PageLayout from "../components/PageLayout";
 
 const Contact = () => {
   const [copied, setCopied] = useState(false);
-  const emailAddress = "iete@gvpce.ac.in";
+  const emailAddress = "isf_ece@gvpce.ac.in";
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(emailAddress);
@@ -91,7 +91,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Helpline</p>
-                      <p className="text-white text-sm font-medium">+91 98765 43210</p>
+                      <p className="text-white text-sm font-medium">+91 7901538371</p>
                     </div>
                   </div>
 
@@ -101,7 +101,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <p className="text-[10px] text-gray-500 font-mono uppercase tracking-widest">Venue</p>
-                      <p className="text-white text-sm font-medium">GVPCE, Visakhapatnam</p>
+                      <p className="text-white text-sm font-medium">GVPCE (A), Visakhapatnam</p>
                     </div>
                   </div>
                 </div>
