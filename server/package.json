@@ -5,7 +5,8 @@
     "dotenv": "17.2.3",
     "express": "5.1.0",
     "node-fetch": "3.3.2",
-    "nodemon": "3.1.11"
+    "nodemon": "3.1.11",
+    "vercel": "50.9.6"
   },
   "name": "server",
   "version": "1.0.0",

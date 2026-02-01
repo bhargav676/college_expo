@@ -32,9 +32,9 @@ const AboutCard = ({ title, description, icon: Icon, delay, colorClass }) => (
 
 const About = () => {
   const team = [
-    { name: "Dr. Rajesh Kumar", role: "Faculty Coordinator", icon: HiAcademicCap, color: "cyan" },
-    { name: "Priya Sharma", role: "Student President", icon: HiBriefcase, color: "purple" },
-    { name: "Arjun Patel", role: "Tech Lead", icon: HiCommandLine, color: "cyan" },
+    { name: "	Dr. S.M.K. Chaitanya", role: "Faculty Coordinator", icon: HiAcademicCap, color: "cyan" },
+    { name: "Jahed Khan", role: "Student President", icon: HiBriefcase, color: "purple" },
+    { name: "Mani Pavan", role: "Tech Lead", icon: HiCommandLine, color: "cyan" },
   ];
 
   const timeline = [
@@ -89,7 +89,7 @@ const About = () => {
               colorClass="purple"
               icon={HiBolt}
               delay={0.2}
-              description="To become the most anticipated tech expo in the region, inspiring students to transform their ideas into reality and solve tomorrow's challenges."
+              description="To become the most anticipated technoverse in the region, inspiring students to transform their ideas into reality and solve tomorrow's challenges."
             />
           </div>
 
