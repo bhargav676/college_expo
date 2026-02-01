@@ -7,20 +7,23 @@ import Footer from "../components/Footer";
 import About from "./About";
 import Contact from "./Contact";
 import {
+  HiRocketLaunch,
+  HiSparkles,
+  HiPlay,
   HiCalendarDays,
 } from "react-icons/hi2";
 import PageLayout from "../components/PageLayout";
 
-// ============ 1. VIVID PARTICLE SYSTEM (Your Original) ============
+// ============ 1. VIVID PARTICLE SYSTEM (Original Colors) ============
 const Particle = ({ index }) => {
   const randomX = Math.random() * 100;
   const randomDelay = Math.random() * 5;
   const randomDuration = 15 + Math.random() * 20;
-  const size = Math.random() * 4 + 1;
+  const size = Math.random() * 4 + 1; // Slightly larger for "Wonder" effect
 
   return (
     <motion.div
-      className="absolute rounded-full bg-cyan-500/30"
+      className="absolute rounded-full bg-cyan-500/30" // Original brightness
       style={{
         width: size,
         height: size,
@@ -51,14 +54,14 @@ const ParticleField = () => (
   </div>
 );
 
-// ============ 2. TRIPLE GLOWING ORBS (Your Original) ============
+// ============ 2. TRIPLE GLOWING ORBS (Original Setup) ============
 const GlowingOrb = ({ color, size, position, delay }) => (
   <motion.div
     className={`absolute ${size} ${color} rounded-full blur-3xl pointer-events-none`}
     style={position}
     animate={{
       scale: [1, 1.2, 1],
-      opacity: [0.3, 0.6, 0.3],
+      opacity: [0.3, 0.6, 0.3], // Original pulsing opacity
     }}
     transition={{
       duration: 4,
@@ -113,7 +116,7 @@ const TypewriterText = ({ texts }) => {
 
 // ============ MAIN HOME COMPONENT ============
 const Home = () => {
-  // Your Original Canvas Connection Logic
+  // Floating particles effect
   useEffect(() => {
     const canvas = document.getElementById("particles-canvas");
     if (!canvas) return;
@@ -173,9 +176,12 @@ const Home = () => {
           }
         });
       });
+
       requestAnimationFrame(animate);
     }
+
     animate();
+    return () => {};
   }, []);
 
   return (
@@ -184,42 +190,55 @@ const Home = () => {
       
       <div className="relative min-h-[85vh] md:min-h-screen w-full flex items-center justify-center overflow-hidden pt-32 md:pt-0 md:pb-0">
         
-        {/* BACKGROUND LAYER 1: Triple Orbs (Restored) */}
+        {/* BACKGROUND LAYER 1: Triple Orbs */}
         <div className="absolute inset-0 z-0">
-          <GlowingOrb color="bg-cyan-500/20" size="w-[500px] h-[500px]" position={{ top: "10%", left: "10%" }} delay={0} />
-          <GlowingOrb color="bg-purple-500/20" size="w-[600px] h-[600px]" position={{ bottom: "10%", right: "5%" }} delay={1} />
-          <GlowingOrb color="bg-pink-500/15" size="w-[400px] h-[400px]" position={{ top: "40%", right: "20%" }} delay={2} />
+          <GlowingOrb
+            color="bg-cyan-500/20"
+            size="w-[500px] h-[500px]"
+            position={{ top: "10%", left: "10%" }}
+            delay={0}
+          />
+          <GlowingOrb
+            color="bg-purple-500/20"
+            size="w-[600px] h-[600px]"
+            position={{ bottom: "10%", right: "5%" }}
+            delay={1}
+          />
+          <GlowingOrb
+            color="bg-pink-500/15"
+            size="w-[400px] h-[400px]"
+            position={{ top: "40%", right: "20%" }}
+            delay={2}
+          />
         </div>
 
-        {/* BACKGROUND LAYER 2: Particles (Restored) */}
+        {/* BACKGROUND LAYER 2: Particles */}
         <ParticleField />
-        <canvas id="particles-canvas" className="absolute inset-0 z-0 pointer-events-none" />
 
-        {/* BACKGROUND LAYER 3: Original High-Visibility Grid (Restored) */}
+        {/* BACKGROUND LAYER 3: Original High-Visibility Grid */}
         <div className="absolute inset-0 z-0 opacity-40 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3lhbiIgc3Ryb2tlLW9wYWNpdHk9IjAuMDUiIHN0cm9rZS13aWR0aD0iMSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNncmlkKSIvPjwvc3ZnPg==')]" />
 
         {/* CONTENT AREA */}
-        <div className="relative z-10 text-center px-4 w-full max-w-5xl mx-auto">
+        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
           
-          {/* Responsive Title Section */}
+          {/* Main Title Section - UPDATED FOR RESPONSIVENESS */}
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8 }}
           >
-            {/* FIXED RESPONSIVENESS: Uses vw for fluid sizing on mobile */}
-            <h1 className="text-[12.5vw] sm:text-7xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white mb-2 italic uppercase leading-none">
+            <h1 className="text-[55px] sm:text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white mb-2 italic uppercase leading-none">
               TECHNO<span className="text-transparent stroke-text">VERSE</span>
             </h1>
             
-            <div className="flex items-center justify-center gap-2 md:gap-4 mb-10">
-              <div className="h-[1px] flex-1 max-w-[100px] bg-gradient-to-r from-transparent to-cyan-500" />
-              <span className="text-xl md:text-5xl font-light text-cyan-500 tracking-[0.2em] md:tracking-[0.4em] font-mono">2K26</span>
-              <div className="h-[1px] flex-1 max-w-[100px] bg-gradient-to-l from-transparent to-cyan-500" />
+            <div className="flex items-center justify-center gap-4 mb-10">
+              <div className="h-[1px] w-12 md:w-24 bg-gradient-to-r from-transparent to-cyan-500" />
+              <span className="text-xl md:text-5xl font-light text-cyan-500 tracking-[0.4em] font-mono">2K26</span>
+              <div className="h-[1px] w-12 md:w-24 bg-gradient-to-l from-transparent to-cyan-500" />
             </div>
           </motion.div>
 
-          {/* Subtitle */}
+          {/* Typewriter Subtitle */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -230,6 +249,7 @@ const Home = () => {
             <TypewriterText texts={["Innovation", "Robotics", "Technology", "Excellence"]} />
           </motion.div>
 
+          {/* Subtext Content */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -240,7 +260,7 @@ const Home = () => {
             anticipated college event of the year. 
           </motion.p>
 
-          {/* Buttons */}
+          {/* CTA Buttons */}
           <motion.div 
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -248,19 +268,20 @@ const Home = () => {
             className="flex flex-col sm:flex-row items-center justify-center gap-6 px-6 sm:px-0"
           >
             <Link to="/events" className="group relative w-full sm:w-auto">
-              <div className="absolute -inset-1 bg-cyan-500 rounded-xl blur opacity-25"></div>
-              <button className="relative w-full sm:w-auto px-8 sm:px-12 py-3 sm:py-4 bg-cyan-600 rounded-xl text-white font-bold text-base sm:text-lg flex items-center justify-center shadow-2xl shadow-cyan-500/20">
+              <div className="absolute -inset-1 bg-cyan-500 rounded-xl blur opacity-25 "></div>
+              <button className="relative w-full sm:w-auto px-8 sm:px-12 py-3 sm:py-4.5 bg-cyan-600 rounded-xl text-white font-bold text-base sm:text-lg flex items-center justify-center gap-3 transition-all shadow-2xl shadow-cyan-500/20">
                 Register now
               </button>
             </Link>
 
             <Link to="/events" className="w-full sm:w-auto">
-              <button className="w-full sm:w-auto px-8 sm:px-12 py-3 sm:py-4 border border-white/20 bg-white/5 backdrop-blur-md rounded-xl text-white font-bold text-base sm:text-lg hover:bg-white/10 transition-all">
+              <button className="w-full sm:w-auto px-8 sm:px-12 py-3 sm:py-4.5 border border-white/20 bg-white/5 backdrop-blur-md rounded-xl text-white font-bold text-base sm:text-lg hover:bg-white/10 transition-all flex items-center justify-center gap-3">
                 View Schedule
               </button>
             </Link>
           </motion.div>
 
+          {/* Bottom Countdown Detail */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -268,8 +289,9 @@ const Home = () => {
             className="mt-16 flex items-center justify-center gap-3 text-gray-500"
           >
             <HiCalendarDays className="text-cyan-500 text-xl" />
-            <span className="text-sm font-mono tracking-[0.3em] uppercase">February 15-17, 2026</span>
+            <span className="text-xs md:text-sm font-mono tracking-[0.3em] uppercase">February 15-17, 2026</span>
           </motion.div>
+
         </div>
       </div>
 
@@ -281,6 +303,10 @@ const Home = () => {
           .stroke-text {
             -webkit-text-stroke: 2px rgba(255, 255, 255, 0.4);
           }
+        }
+        .sm\:py-4\.5 {
+          padding-top: 1.125rem;
+          padding-bottom: 1.125rem;
         }
       `}</style>
       

@@ -17,6 +17,9 @@ import {
 } from "react-icons/hi2";
 
 const Profile = () => {
+  // Get API URL from Environment Variables
+  const API_URL = import.meta.env.VITE_API_URL;
+
   const [searchValue, setSearchValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
@@ -34,7 +37,6 @@ const Profile = () => {
     { name: "Fun Events", category: "Non-Technical", icon: HiTrophy, color: "pink" },
   ];
 
-  // SESSION DURATION: 5 DAYS
   const SESSION_DURATION = 5 * 24 * 60 * 60 * 1000;
 
   useEffect(() => {
@@ -45,7 +47,7 @@ const Profile = () => {
         setSearchValue(value);
         setIsSavedUser(true);
         setInitialLoading(true);
-        setTimeout(() => autoSearch(value), 1500);
+        setTimeout(() => autoSearch(value), 1500); 
       } else {
         localStorage.removeItem("expoUser");
       }
@@ -54,7 +56,7 @@ const Profile = () => {
 
   const autoSearch = async (value) => {
     try {
-      const response = await fetch("http://localhost:4000/check-registration", {
+      const response = await fetch(`${API_URL}/check-registration`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ searchValue: value.trim() }),
@@ -82,7 +84,7 @@ const Profile = () => {
     const startTime = Date.now();
 
     try {
-      const response = await fetch("http://localhost:4000/check-registration", {
+      const response = await fetch(`${API_URL}/check-registration`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ searchValue: searchValue.trim() }),
@@ -95,7 +97,7 @@ const Profile = () => {
         setRegisteredEvents(data.registeredEvents || []);
         setSearched(true);
         if (rememberMe) {
-          const expiry = new Date().getTime() + SESSION_DURATION; // SAVED FOR 5 DAYS
+          const expiry = new Date().getTime() + SESSION_DURATION;
           localStorage.setItem("expoUser", JSON.stringify({ value: searchValue.trim(), expiry }));
           setIsSavedUser(true);
         }
@@ -126,7 +128,6 @@ const Profile = () => {
 
         <div className="relative z-10 max-w-7xl mx-auto px-6 pt-10 pb-20">
           
-          {/* HEADER SECTION */}
           <div className="text-center mb-12">
             <motion.div 
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
@@ -147,14 +148,12 @@ const Profile = () => {
           <div className="max-w-4xl mx-auto">
             <AnimatePresence mode="wait">
               {(initialLoading || loading) ? (
-                /* LOADING STATE */
                 <motion.div 
                   key="loader"
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
                   className="flex flex-col items-center justify-center py-20"
                 >
                   <div className="relative w-24 h-24 mb-8">
-                    {/* Glass Finish Loader */}
                     <div className="absolute inset-0 bg-white/5 border border-white/20 rounded-full backdrop-blur-xl shadow-[0_0_40px_rgba(34,211,238,0.1)]"></div>
                     <div className="absolute inset-0 border-t-4 border-cyan-400 rounded-full animate-spin"></div>
                     <HiUser className="absolute inset-0 m-auto text-3xl text-cyan-400" />
@@ -162,7 +161,6 @@ const Profile = () => {
                   <h2 className="text-white font-mono tracking-widest animate-pulse uppercase">Accessing Mainframe...</h2>
                 </motion.div>
               ) : !searched ? (
-                /* SEARCH FORM */
                 <motion.div 
                   key="search"
                   initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
@@ -207,16 +205,13 @@ const Profile = () => {
                   </form>
                 </motion.div>
               ) : (
-                /* RESULTS STATE */
                 <motion.div 
                   key="results"
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                   className="space-y-8"
                 >
-                  {/* GLASS FINISH USER INFO CARD */}
                   <div className="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-xl flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
                     <div className="flex items-center gap-5">
-                      {/* GLASS PROFILE ICON */}
                       <div className="relative group">
                         <div className="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-600 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                         <div className="relative w-16 h-16 rounded-2xl bg-white/10 border border-white/20 backdrop-blur-2xl flex items-center justify-center shadow-2xl">
@@ -234,7 +229,6 @@ const Profile = () => {
                     </button>
                   </div>
 
-                  {/* EVENTS GRID */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {allEvents.map((event, i) => {
                       const isRegistered = registeredEvents.some(e => e.name === event.name);
@@ -250,8 +244,6 @@ const Profile = () => {
                         >
                           <div className="flex justify-between items-start mb-4">
                             <event.icon className={`text-3xl ${isRegistered ? 'text-cyan-400' : 'text-red-400/60'}`} />
-                            
-                            {/* STATUS BADGE */}
                             <span className={`text-[10px] font-mono font-bold px-3 py-1.5 rounded-lg border backdrop-blur-md ${
                               isRegistered 
                                 ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-400' 
@@ -277,7 +269,6 @@ const Profile = () => {
                     })}
                   </div>
 
-                  {/* CTA SECTION */}
                   {registeredEvents.length < allEvents.length && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-10 rounded-3xl bg-gradient-to-br from-red-500/10 via-black to-cyan-500/10 border border-white/5 text-center">
                       <h3 className="text-white font-bold text-2xl mb-2">Complete Your Roster</h3>
@@ -295,57 +286,14 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* Add CSS animations */}
         <style jsx>{`
           @keyframes gradient {
-            0%,
-            100% {
-              background-position: 0% 50%;
-            }
-            50% {
-              background-position: 100% 50%;
-            }
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
           }
           .animate-gradient {
             background-size: 200% 200%;
             animation: gradient 3s ease infinite;
-          }
-          @keyframes slideUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          .animate-slideUp {
-            animation: slideUp 0.6s ease forwards;
-          }
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-          .animate-fadeIn {
-            animation: fadeIn 0.5s ease forwards;
-          }
-          @keyframes slideDown {
-            from {
-              opacity: 0;
-              transform: translateY(-10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-          .animate-slideDown {
-            animation: slideDown 0.3s ease forwards;
           }
         `}</style>
       </div>
